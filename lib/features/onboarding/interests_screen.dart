@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 
 const interests = [
   "Daily Life",
@@ -43,87 +44,101 @@ const interests = [
   "Home & Garden",
 ];
 
-class InterestsScreen extends StatelessWidget {
+class InterestsScreen extends StatefulWidget {
   const InterestsScreen({super.key});
+
+  @override
+  State<InterestsScreen> createState() => _InterestsScreenState();
+}
+
+class _InterestsScreenState extends State<InterestsScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  bool _showTitle = false;
+
+  void _onScroll() {
+    if (_scrollController.offset > 120) {
+      if (_showTitle) return;
+      setState(() {
+        _showTitle = true;
+      });
+    } else {
+      setState(() {
+        _showTitle = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      _onScroll();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Choose your interests')),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: Sizes.size24,
-            right: Sizes.size24,
-            bottom: Sizes.size16,
-          ),
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Gaps.v32,
-                  Text(
-                    "Choose your interests",
-                    style: TextStyle(
-                      fontSize: Sizes.size40,
-                      fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        title: AnimatedOpacity(
+          opacity: _showTitle ? 1 : 0,
+          duration: const Duration(milliseconds: 300),
+          child: Text('Choose your interests'),
+        ),
+      ),
+      body: Scrollbar(
+        controller: _scrollController,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: Sizes.size24,
+              right: Sizes.size24,
+              bottom: Sizes.size16,
+            ),
+            child: Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Gaps.v32,
+                    Text(
+                      "Choose your interests",
+                      style: TextStyle(
+                        fontSize: Sizes.size40,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Gaps.v16,
-                  Text(
-                    "Get better video recommendations",
-                    style: TextStyle(fontSize: Sizes.size20),
-                  ),
-                  Gaps.v64,
-                  Wrap(
-                    spacing: Sizes.size16,
-                    runSpacing: Sizes.size16,
-                    children: [
-                      for (var interest in interests)
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: Sizes.size16,
-                            horizontal: Sizes.size24,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              Sizes.size32,
-                            ),
-                            border: Border.all(
-                              color: Colors.black.withValues(
-                                alpha: 0.1,
-                              ),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(
-                                  alpha: 0.05,
-                                ),
-                                blurRadius: 5,
-                                spreadRadius: 5,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Text(
-                            interest,
-                            style: TextStyle(
-                              fontSize: Sizes.size16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                    Gaps.v16,
+                    Text(
+                      "Get better video recommendations",
+                      style: TextStyle(fontSize: Sizes.size20),
+                    ),
+                    Gaps.v64,
+                    Wrap(
+                      spacing: Sizes.size16,
+                      runSpacing: Sizes.size16,
+                      children: [
+                        for (var interest in interests)
+                          InterestButton(interest: interest),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
       bottomNavigationBar: Container(
+        // BottomAppBar 사용 시, 자동으로 height 조절이 안됨 container 사용
         padding: EdgeInsets.only(
           top: Sizes.size16,
           bottom: Sizes.size32,
@@ -133,6 +148,7 @@ class InterestsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
+            // elevation 효과
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
