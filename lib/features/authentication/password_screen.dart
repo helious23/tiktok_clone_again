@@ -35,13 +35,23 @@ class _PasswordScreenState extends State<PasswordScreen> {
     super.dispose();
   }
 
-  bool _isPasswordValid() {
+  bool _isPasswordLengthValid() {
     return _password.isNotEmpty &&
         _password.length >= 8 &&
-        _password.length <= 20 &&
+        _password.length <= 20;
+  }
+
+  bool _isPasswordCompositionValid() {
+    return _password.isNotEmpty &&
         RegExp(r'[a-zA-Z]').hasMatch(_password) &&
         RegExp(r'[0-9]').hasMatch(_password) &&
         RegExp(r'[!-/:-@[-`{-~]').hasMatch(_password);
+  }
+
+  bool _isPasswordValid() {
+    return _password.isNotEmpty &&
+        _isPasswordLengthValid() &&
+        _isPasswordCompositionValid();
   }
 
   void _onScaffoldTap() {
@@ -148,7 +158,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 children: [
                   FaIcon(
                     FontAwesomeIcons.circleCheck,
-                    color: _isPasswordValid()
+                    color: _isPasswordLengthValid()
                         ? Colors.green
                         : Colors.grey.shade400,
                     size: Sizes.size20,
@@ -157,7 +167,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   Text(
                     "8 to 20 characters",
                     style: TextStyle(
-                      color: _isPasswordValid()
+                      color: _isPasswordLengthValid()
                           ? Colors.black
                           : Colors.grey.shade500,
                     ),
@@ -169,7 +179,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 children: [
                   FaIcon(
                     FontAwesomeIcons.circleCheck,
-                    color: _isPasswordValid()
+                    color: _isPasswordCompositionValid()
                         ? Colors.green
                         : Colors.grey.shade400,
                     size: Sizes.size20,
@@ -178,7 +188,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   Text(
                     "Letters, numbers, and special characters",
                     style: TextStyle(
-                      color: _isPasswordValid()
+                      color: _isPasswordCompositionValid()
                           ? Colors.black
                           : Colors.grey.shade500,
                     ),

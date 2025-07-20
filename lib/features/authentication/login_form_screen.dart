@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -12,7 +13,10 @@ class LoginFormScreen extends StatefulWidget {
 }
 
 class _LoginFormScreenState extends State<LoginFormScreen> {
+  // Form validation 을 위해 formKey 생성
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // formKey로 validation 되지만, Form 자체를 control 하기 위해 controller 생성
   final TextEditingController _emailController =
       TextEditingController();
   final TextEditingController _passwordController =
@@ -81,9 +85,28 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
   void _onSubmitTap() {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
         // validation이 통과했을 때만 현재 컨트롤러의 값을 사용
         print({'email': _email, 'password': _password});
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const InterestsScreen(),
+          ),
+        );
       }
+    }
+  }
+
+  void _onEmailSaved(String? value) {
+    if (value != null) {
+      _email = value;
+    }
+  }
+
+  void _onPasswordSaved(String? value) {
+    if (value != null) {
+      _password = value;
     }
   }
 
@@ -124,6 +147,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   autocorrect: false,
                   cursorColor: Theme.of(context).primaryColor,
                   validator: _isEmailValid,
+                  onSaved: _onEmailSaved,
                   decoration: InputDecoration(
                     hintText: 'Email',
                     hintStyle: TextStyle(color: Colors.grey.shade400),
@@ -158,6 +182,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   autocorrect: false,
                   cursorColor: Theme.of(context).primaryColor,
                   validator: _isPasswordValid,
+                  onSaved: _onPasswordSaved,
                   decoration: InputDecoration(
                     suffix: Row(
                       mainAxisSize: MainAxisSize.min,
