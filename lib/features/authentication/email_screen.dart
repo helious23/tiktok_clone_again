@@ -94,7 +94,7 @@ class _EmailScreenState extends State<EmailScreen> {
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                      color: Colors.grey.shade400,
                     ),
                   ),
                 ),

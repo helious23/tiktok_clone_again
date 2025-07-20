@@ -88,7 +88,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                      color: Colors.grey.shade400,
                     ),
                   ),
                 ),
