@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
@@ -12,69 +13,214 @@ class LoginFormScreen extends StatefulWidget {
 
 class _LoginFormScreenState extends State<LoginFormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Map<String, String> formData = {};
+  final TextEditingController _emailController =
+      TextEditingController();
+  final TextEditingController _passwordController =
+      TextEditingController();
+
+  String _email = '';
+  String _password = '';
+  bool _obscureText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(() {
+      setState(() {
+        _email = _emailController.text;
+      });
+    });
+    _passwordController.addListener(() {
+      setState(() {
+        _password = _passwordController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  String? _isEmailValid(String? value) {
+    if (value == null || value.isEmpty) return "Email is required";
+    final bool regExp = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(value);
+    if (!regExp) return "Email is not valid";
+    return null;
+  }
+
+  String? _isPasswordValid(String? value) {
+    if (value == null || value.isEmpty) return "Password is required";
+    if (value.length < 8 || value.length > 20) {
+      return "Password must be 8 to 20 characters";
+    }
+    if (!RegExp(r'[a-zA-Z]').hasMatch(value)) {
+      return "Password must contain letters";
+    }
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
+      return "Password must contain numbers";
+    }
+    if (!RegExp(r'[!-/:-@[-`{-~]').hasMatch(value)) {
+      return "Password must contain special characters";
+    }
+    return null;
+  }
+
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
+  }
+
+  void _onClearTap() {
+    _passwordController.clear();
+  }
 
   void _onSubmitTap() {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        print(formData);
+        // validation이 통과했을 때만 현재 컨트롤러의 값을 사용
+        print({'email': _email, 'password': _password});
       }
     }
   }
 
+  void _toggleObscureText() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Log in to TikTok')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size36,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Gaps.v40,
-                  TextFormField(
-                    decoration: InputDecoration(hintText: 'Email'),
-                    validator: (value) {
-                      return null;
-                    },
-                    onSaved: (value) {
-                      formData['email'] = value ?? '';
-                    },
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        appBar: AppBar(title: Text('Log in to TikTok')),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.size36,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Gaps.v40,
+                Text(
+                  "Log in to TikTok",
+                  style: TextStyle(
+                    fontSize: Sizes.size24,
+                    fontWeight: FontWeight.w700,
                   ),
-                  Gaps.v16,
-                  TextFormField(
-                    decoration: InputDecoration(hintText: 'Password'),
-                    validator: (value) {
-                      return null;
-                    },
-                    onSaved: (value) {
-                      formData['password'] = value ?? '';
-                    },
-                  ),
-                  Gaps.v28,
-                  GestureDetector(
-                    onTap: _onSubmitTap,
-                    child: FormButton(
-                      text: 'Log in',
-                      disabled: false,
+                ),
+                Gaps.v16,
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  onEditingComplete: _onSubmitTap,
+                  autocorrect: false,
+                  cursorColor: Theme.of(context).primaryColor,
+                  validator: _isEmailValid,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.red.shade400,
+                      ),
+                    ),
+                    focusedErrorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.red.shade400,
+                      ),
                     ),
                   ),
-                  Gaps.v16,
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('Forgot password?'),
+                ),
+                Gaps.v16,
+                TextFormField(
+                  controller: _passwordController,
+                  keyboardType: TextInputType.visiblePassword,
+                  obscureText: _obscureText,
+                  onEditingComplete: _onSubmitTap,
+                  autocorrect: false,
+                  cursorColor: Theme.of(context).primaryColor,
+                  validator: _isPasswordValid,
+                  decoration: InputDecoration(
+                    suffix: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: _onClearTap,
+                          child: FaIcon(
+                            FontAwesomeIcons.solidCircleXmark,
+                            color: Colors.grey.shade500,
+                            size: Sizes.size20,
+                          ),
+                        ),
+                        Gaps.h14,
+                        GestureDetector(
+                          onTap: _toggleObscureText,
+                          child: FaIcon(
+                            _obscureText
+                                ? FontAwesomeIcons.eye
+                                : FontAwesomeIcons.eyeSlash,
+                            color: Colors.grey.shade500,
+                            size: Sizes.size20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.red.shade400,
+                      ),
+                    ),
+                    focusedErrorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.red.shade400,
+                      ),
+                    ),
                   ),
-                ],
-              ),
+                ),
+                Gaps.v28,
+                GestureDetector(
+                  onTap: _onSubmitTap,
+                  child: FormButton(
+                    text: 'Log in',
+                    disabled:
+                        _isEmailValid(_email) != null ||
+                        _isPasswordValid(_password) != null,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
