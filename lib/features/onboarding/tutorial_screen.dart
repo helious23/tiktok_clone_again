@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 
 enum Direction { right, left }
 
@@ -15,6 +16,8 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends State<TutorialScreen> {
+  static const int _totalPages = 2;
+
   Direction _direction = Direction.right;
   Page _showingPage = Page.first;
 
@@ -44,6 +47,15 @@ class _TutorialScreenState extends State<TutorialScreen> {
         _showingPage = Page.first;
       });
     }
+  }
+
+  void _onEnterAppTap() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+      (route) => false,
+    );
   }
 
   @override
@@ -100,6 +112,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   ),
                 ],
               ),
+
               crossFadeState: _showingPage == Page.first
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
@@ -112,18 +125,51 @@ class _TutorialScreenState extends State<TutorialScreen> {
             vertical: Sizes.size48,
             horizontal: Sizes.size24,
           ),
-          child: AnimatedOpacity(
-            opacity: _showingPage == Page.first ? 0 : 1,
-            duration: const Duration(milliseconds: 300),
-            child: CupertinoButton(
-              onPressed: () {},
-              color: Theme.of(context).primaryColor,
-              disabledColor: Colors.grey.shade300,
-              child: Text(
-                "Enter the app!",
-                style: TextStyle(color: Colors.white),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < _totalPages; i++)
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: Sizes.size4,
+                      ),
+                      width: _showingPage.index == i
+                          ? Sizes.size24
+                          : Sizes.size16,
+                      height: Sizes.size6,
+                      decoration: BoxDecoration(
+                        color: _showingPage.index == i
+                            ? Theme.of(context).primaryColor
+                            : Colors.grey.shade400,
+                        borderRadius: BorderRadius.circular(
+                          Sizes.size3,
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ),
+              Gaps.v20,
+              AnimatedOpacity(
+                opacity: _showingPage == Page.first ? 0 : 1,
+                duration: const Duration(milliseconds: 300),
+                child: FractionallySizedBox(
+                  widthFactor: 1,
+                  child: CupertinoButton(
+                    onPressed: _onEnterAppTap,
+                    color: Theme.of(context).primaryColor,
+                    disabledColor: Colors.grey.shade300,
+                    child: Text(
+                      "Enter the app!",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -87,12 +87,12 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         // validation이 통과했을 때만 현재 컨트롤러의 값을 사용
-        print({'email': _email, 'password': _password});
-        Navigator.push(
-          context,
+        // print({'email': _email, 'password': _password});
+        Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const InterestsScreen(),
           ),
+          (route) => false,
         );
       }
     }
