@@ -30,41 +30,40 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onTap,
-        // selectedItemColor: Theme.of(context).primaryColor,
-        type: BottomNavigationBarType.shifting,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.house),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onTap,
+        labelBehavior:
+            NavigationDestinationLabelBehavior.onlyShowSelected,
+
+        destinations: [
+          NavigationDestination(
+            icon: Icon(
+              FontAwesomeIcons.house,
+              color: _selectedIndex == 0 ? Colors.black : Colors.grey,
+            ),
             label: 'Home',
-            tooltip: 'Home',
-            backgroundColor: Colors.amber,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.magnifyingGlass),
+          NavigationDestination(
+            icon: Icon(
+              FontAwesomeIcons.magnifyingGlass,
+              color: _selectedIndex == 1 ? Colors.black : Colors.grey,
+            ),
             label: 'Search',
-            tooltip: 'Search',
-            backgroundColor: Colors.blue,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.plus),
+          NavigationDestination(
+            icon: Icon(
+              FontAwesomeIcons.plus,
+              color: _selectedIndex == 2 ? Colors.black : Colors.grey,
+            ),
             label: 'Add',
-            tooltip: 'Add',
-            backgroundColor: Colors.green,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.heart),
+          NavigationDestination(
+            icon: Icon(
+              FontAwesomeIcons.heart,
+              color: _selectedIndex == 3 ? Colors.black : Colors.grey,
+            ),
             label: 'Likes',
-            tooltip: 'Likes',
-            backgroundColor: Colors.purple,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.user),
-            label: 'Profile',
-            tooltip: 'Profile',
-            backgroundColor: Colors.red,
           ),
         ],
       ),
