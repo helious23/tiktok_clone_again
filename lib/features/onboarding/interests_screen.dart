@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 
 const interests = [
   "Daily Life",
@@ -58,6 +59,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   void _onScroll() {
     if (_scrollController.offset > 120) {
+      // _showTitle 이 true 일 때, setState 계속해서 실행하지 않음
       if (_showTitle) return;
       setState(() {
         _showTitle = true;
@@ -81,6 +83,13 @@ class _InterestsScreenState extends State<InterestsScreen> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onNextTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TutorialScreen()),
+    );
   }
 
   @override
@@ -156,18 +165,21 @@ class _InterestsScreenState extends State<InterestsScreen> {
             ),
           ],
         ),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: Sizes.size20),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Text(
-            "Next",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: Sizes.size16,
-              fontWeight: FontWeight.bold,
+        child: GestureDetector(
+          onTap: _onNextTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: Sizes.size20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            child: Text(
+              "Next",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: Sizes.size16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
