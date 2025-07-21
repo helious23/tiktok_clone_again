@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
@@ -11,21 +12,15 @@ class TikTokApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return CupertinoApp(
       title: 'TikTok Clone',
-      theme: ThemeData(
+      theme: CupertinoThemeData(
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
-        appBarTheme: AppBarTheme(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.transparent,
-          centerTitle: true,
-          elevation: 0,
-          titleTextStyle: TextStyle(
+        textTheme: CupertinoTextThemeData(
+          textStyle: TextStyle(
             color: Colors.black,
             fontSize: Sizes.size16 + Sizes.size2,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

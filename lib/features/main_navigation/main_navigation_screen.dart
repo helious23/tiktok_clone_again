@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -28,45 +28,54 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[_selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: _onTap,
-        labelBehavior:
-            NavigationDestinationLabelBehavior.onlyShowSelected,
-
-        destinations: [
-          NavigationDestination(
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        currentIndex: _selectedIndex,
+        onTap: _onTap,
+        backgroundColor: Colors.white,
+        activeColor: Colors.black,
+        inactiveColor: Colors.grey,
+        iconSize: 24,
+        height: 50,
+        items: [
+          BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.house,
+              CupertinoIcons.home,
               color: _selectedIndex == 0 ? Colors.black : Colors.grey,
             ),
             label: 'Home',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.magnifyingGlass,
+              CupertinoIcons.search,
               color: _selectedIndex == 1 ? Colors.black : Colors.grey,
             ),
             label: 'Search',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.plus,
+              CupertinoIcons.add,
               color: _selectedIndex == 2 ? Colors.black : Colors.grey,
             ),
             label: 'Add',
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.heart,
+              CupertinoIcons.heart,
               color: _selectedIndex == 3 ? Colors.black : Colors.grey,
             ),
             label: 'Likes',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              CupertinoIcons.person,
+              color: _selectedIndex == 4 ? Colors.black : Colors.grey,
+            ),
+            label: 'Profile',
+          ),
         ],
       ),
+      tabBuilder: (context, index) => screens[index],
     );
   }
 }
