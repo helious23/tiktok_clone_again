@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -12,70 +14,106 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
+  final screens = [
+    const Center(
+      child: Text(
+        'Home',
+        style: TextStyle(
+          fontSize: Sizes.size48,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Discover',
+        style: TextStyle(
+          fontSize: Sizes.size48,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Add',
+        style: TextStyle(
+          fontSize: Sizes.size48,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Inbox',
+        style: TextStyle(
+          fontSize: Sizes.size48,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Profile',
+        style: TextStyle(
+          fontSize: Sizes.size48,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+  ];
+
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  final List<Widget> screens = [
-    const Center(child: Text('Home')),
-    const Center(child: Text('Search')),
-    const Center(child: Text('Add')),
-    const Center(child: Text('Likes')),
-    const Center(child: Text('Profile')),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        currentIndex: _selectedIndex,
-        onTap: _onTap,
-        backgroundColor: Colors.white,
-        activeColor: Colors.black,
-        inactiveColor: Colors.grey,
-        iconSize: 24,
-        height: 50,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.home,
-              color: _selectedIndex == 0 ? Colors.black : Colors.grey,
-            ),
-            label: 'Home',
+    return Scaffold(
+      body: screens[_selectedIndex],
+      bottomNavigationBar: BottomAppBar(
+        padding: EdgeInsets.zero,
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.size12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              NavTab(
+                text: 'Home',
+                icon: FontAwesomeIcons.house,
+                isSelected: _selectedIndex == 0,
+                onTap: () => _onTap(0),
+              ),
+              NavTab(
+                text: 'Discover',
+                icon: FontAwesomeIcons.magnifyingGlass,
+                isSelected: _selectedIndex == 1,
+                onTap: () => _onTap(1),
+              ),
+              // NavTab(
+              //   text: 'Add',
+              //   icon: FontAwesomeIcons.plus,
+              //   isSelected: _selectedIndex == 2,
+              //   onTap: () => _onTap(2),
+              // ),
+              NavTab(
+                text: 'Inbox',
+                icon: FontAwesomeIcons.message,
+                isSelected: _selectedIndex == 3,
+                onTap: () => _onTap(3),
+              ),
+              NavTab(
+                text: 'Profile',
+                icon: FontAwesomeIcons.user,
+                isSelected: _selectedIndex == 4,
+                onTap: () => _onTap(4),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.search,
-              color: _selectedIndex == 1 ? Colors.black : Colors.grey,
-            ),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.add,
-              color: _selectedIndex == 2 ? Colors.black : Colors.grey,
-            ),
-            label: 'Add',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.heart,
-              color: _selectedIndex == 3 ? Colors.black : Colors.grey,
-            ),
-            label: 'Likes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.person,
-              color: _selectedIndex == 4 ? Colors.black : Colors.grey,
-            ),
-            label: 'Profile',
-          ),
-        ],
+        ),
       ),
-      tabBuilder: (context, index) => screens[index],
     );
   }
 }
