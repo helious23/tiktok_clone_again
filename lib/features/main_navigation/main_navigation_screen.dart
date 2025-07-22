@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/main_navigation/stf_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -15,51 +16,47 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
   final screens = [
-    const Center(
-      child: Text(
-        'Home',
-        style: TextStyle(
-          fontSize: Sizes.size48,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-    const Center(
-      child: Text(
-        'Discover',
-        style: TextStyle(
-          fontSize: Sizes.size48,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-    const Center(
-      child: Text(
-        'Add',
-        style: TextStyle(
-          fontSize: Sizes.size48,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-    const Center(
-      child: Text(
-        'Inbox',
-        style: TextStyle(
-          fontSize: Sizes.size48,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-    const Center(
-      child: Text(
-        'Profile',
-        style: TextStyle(
-          fontSize: Sizes.size48,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
+    // const Center(
+    //   child: Text(
+    //     'Home',
+    //     style: TextStyle(
+    //       fontSize: Sizes.size48,
+    //       fontWeight: FontWeight.w600,
+    //     ),
+    //   ),
+    // ),
+    // const Center(
+    //   child: Text(
+    //     'Discover',
+    //     style: TextStyle(
+    //       fontSize: Sizes.size48,
+    //       fontWeight: FontWeight.w600,
+    //     ),
+    //   ),
+    // ),
+    StfScreen(key: Key('home')),
+    StfScreen(key: Key('discover')),
+    Container(key: Key('add')),
+    StfScreen(key: Key('inbox')),
+    StfScreen(key: Key('profile')),
+    // const Center(
+    //   child: Text(
+    //     'Inbox',
+    //     style: TextStyle(
+    //       fontSize: Sizes.size48,
+    //       fontWeight: FontWeight.w600,
+    //     ),
+    //   ),
+    // ),
+    // const Center(
+    //   child: Text(
+    //     'Profile',
+    //     style: TextStyle(
+    //       fontSize: Sizes.size48,
+    //       fontWeight: FontWeight.w600,
+    //     ),
+    //   ),
+    // ),
   ];
 
   void _onTap(int index) {
@@ -83,12 +80,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               NavTab(
                 text: 'Home',
                 icon: FontAwesomeIcons.house,
+                selectedIcon: FontAwesomeIcons.house,
                 isSelected: _selectedIndex == 0,
                 onTap: () => _onTap(0),
               ),
               NavTab(
                 text: 'Discover',
-                icon: FontAwesomeIcons.magnifyingGlass,
+                icon: FontAwesomeIcons.compass,
+                selectedIcon: FontAwesomeIcons.solidCompass,
                 isSelected: _selectedIndex == 1,
                 onTap: () => _onTap(1),
               ),
@@ -101,12 +100,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               NavTab(
                 text: 'Inbox',
                 icon: FontAwesomeIcons.message,
+                selectedIcon: FontAwesomeIcons.solidMessage,
                 isSelected: _selectedIndex == 3,
                 onTap: () => _onTap(3),
               ),
               NavTab(
                 text: 'Profile',
                 icon: FontAwesomeIcons.user,
+                selectedIcon: FontAwesomeIcons.solidUser,
                 isSelected: _selectedIndex == 4,
                 onTap: () => _onTap(4),
               ),
