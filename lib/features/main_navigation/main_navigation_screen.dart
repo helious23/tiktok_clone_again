@@ -15,50 +15,6 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    // const Center(
-    //   child: Text(
-    //     'Home',
-    //     style: TextStyle(
-    //       fontSize: Sizes.size48,
-    //       fontWeight: FontWeight.w600,
-    //     ),
-    //   ),
-    // ),
-    // const Center(
-    //   child: Text(
-    //     'Discover',
-    //     style: TextStyle(
-    //       fontSize: Sizes.size48,
-    //       fontWeight: FontWeight.w600,
-    //     ),
-    //   ),
-    // ),
-    StfScreen(key: Key('home')),
-    StfScreen(key: Key('discover')),
-    Container(key: Key('add')),
-    StfScreen(key: Key('inbox')),
-    StfScreen(key: Key('profile')),
-    // const Center(
-    //   child: Text(
-    //     'Inbox',
-    //     style: TextStyle(
-    //       fontSize: Sizes.size48,
-    //       fontWeight: FontWeight.w600,
-    //     ),
-    //   ),
-    // ),
-    // const Center(
-    //   child: Text(
-    //     'Profile',
-    //     style: TextStyle(
-    //       fontSize: Sizes.size48,
-    //       fontWeight: FontWeight.w600,
-    //     ),
-    //   ),
-    // ),
-  ];
-
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -68,7 +24,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[_selectedIndex],
+      body: Stack(
+        children: [
+          Offstage(offstage: _selectedIndex != 0, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 1, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 2, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 3, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 4, child: StfScreen()),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         padding: EdgeInsets.zero,
         color: Colors.black,
