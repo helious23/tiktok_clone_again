@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:video_player/video_player.dart';
 
@@ -86,6 +87,7 @@ class _VideoPostState extends State<VideoPost>
 
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction == 1 &&
+        !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
@@ -108,6 +110,18 @@ class _VideoPostState extends State<VideoPost>
     setState(() {
       _showMore = !_showMore;
     });
+  }
+
+  void _onCommentsTap() async {
+    if (_videoPlayerController.value.isPlaying) {
+      _onTogglePause();
+    }
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) => VideoComments(),
+      backgroundColor: Colors.transparent,
+    );
+    _onTogglePause();
   }
 
   @override
@@ -198,10 +212,14 @@ class _VideoPostState extends State<VideoPost>
                   onTap: () {},
                 ),
                 Gaps.v12,
-                VideoButton(
-                  icon: FontAwesomeIcons.solidComment,
-                  text: "33K",
-                  onTap: () {},
+                GestureDetector(
+                  onTap: _onCommentsTap,
+                  behavior: HitTestBehavior.translucent,
+                  child: VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: "33K",
+                    onTap: () {},
+                  ),
                 ),
                 Gaps.v12,
                 VideoButton(

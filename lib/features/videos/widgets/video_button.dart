@@ -17,19 +17,23 @@ class VideoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FaIcon(icon, color: Colors.white, size: Sizes.size40),
-        Gaps.v5,
-        Text(
-          text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: Sizes.size16,
-            fontWeight: FontWeight.bold,
+    return Container(
+      color: Colors.red,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          FaIcon(icon, color: Colors.white, size: Sizes.size40),
+          Gaps.v5,
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: Sizes.size16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
