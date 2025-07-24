@@ -38,6 +38,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 키보드 사용 시 화면 작아짐 방지
+      resizeToAvoidBottomInset: false,
       backgroundColor: _selectedIndex == 0
           ? Colors.black
           : Colors.white,
