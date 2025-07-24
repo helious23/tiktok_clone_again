@@ -12,7 +12,7 @@ class VideoComments extends StatefulWidget {
 
 class _VideoCommentsState extends State<VideoComments> {
   bool _isWriting = false;
-
+  final ScrollController _scrollController = ScrollController();
   void _onClosePresed() {
     Navigator.of(context).pop();
   }
@@ -57,65 +57,72 @@ class _VideoCommentsState extends State<VideoComments> {
           onTap: _stopWriting,
           child: Stack(
             children: [
-              ListView.separated(
-                itemCount: 10,
-                padding: EdgeInsets.symmetric(
-                  vertical: Sizes.size10,
-                  horizontal: Sizes.size16,
-                ),
-                separatorBuilder: (context, index) => Gaps.v20,
-                itemBuilder: (context, index) => Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: Sizes.size16,
-                      backgroundImage: NetworkImage(
-                        "https://picsum.photos/200/300",
+              Scrollbar(
+                controller: _scrollController,
+                child: ListView.separated(
+                  controller: _scrollController,
+                  itemCount: 10,
+                  padding: EdgeInsets.only(
+                    top: Sizes.size10,
+                    left: Sizes.size16,
+                    right: Sizes.size16,
+                    bottom: Sizes.size96 + Sizes.size14,
+                  ),
+                  separatorBuilder: (context, index) => Gaps.v20,
+                  itemBuilder: (context, index) => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: Sizes.size16,
+                        backgroundImage: NetworkImage(
+                          "https://picsum.photos/200/300",
+                        ),
                       ),
-                    ),
-                    Gaps.h10,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Max",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: Sizes.size14,
-                              color: Colors.grey.shade500,
+                      Gaps.h10,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Max",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Sizes.size14,
+                                color: Colors.grey.shade500,
+                              ),
                             ),
+                            Gaps.v3,
+                            Text(
+                              "윤서야 장기자랑 너무 잘하는데! 매달리기도 잘하고 파이어폴도 정말 멋져 ㅎㅎ 다음에 또 보여줘 💖",
+                              style: TextStyle(
+                                fontSize: Sizes.size16,
+                                height: 1.3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Gaps.h10,
+                      Column(
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.heart,
+                            color: Colors.grey.shade500,
+                            size: Sizes.size20,
                           ),
-                          Gaps.v3,
+                          Gaps.v5,
                           Text(
-                            "윤서야 장기자랑 너무 잘하는데! 메달리기도 잘하고 파이어폴도 정말 멋져 ㅎㅎ 다음에 또 보여줘 💖",
+                            "52.2K",
                             style: TextStyle(
-                              fontSize: Sizes.size16,
-                              height: 1.3,
+                              fontSize: Sizes.size12,
+                              color: Colors.grey.shade500,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    Gaps.h10,
-                    Column(
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.heart,
-                          color: Colors.grey.shade500,
-                          size: Sizes.size20,
-                        ),
-                        Gaps.v5,
-                        Text(
-                          "52.2K",
-                          style: TextStyle(
-                            fontSize: Sizes.size12,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Positioned(
