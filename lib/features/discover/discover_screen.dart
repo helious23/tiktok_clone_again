@@ -70,6 +70,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          elevation: 1,
           title: TextField(
             controller: _textController,
             cursorColor: Theme.of(context).primaryColor,
