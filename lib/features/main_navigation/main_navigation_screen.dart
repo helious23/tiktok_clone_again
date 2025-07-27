@@ -16,7 +16,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onTap(int index) {
     setState(() {
@@ -54,7 +54,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             offstage: _selectedIndex != 1,
             child: DiscoverScreen(),
           ),
-          Offstage(offstage: _selectedIndex != 2, child: Container()),
           Offstage(offstage: _selectedIndex != 3, child: Container()),
           Offstage(offstage: _selectedIndex != 4, child: Container()),
         ],

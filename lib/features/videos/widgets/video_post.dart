@@ -45,7 +45,9 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isPaused = false;
 
-  final _animationDuration = const Duration(milliseconds: 100);
+  final Duration _animationDuration = const Duration(
+    milliseconds: 100,
+  );
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -90,6 +92,10 @@ class _VideoPostState extends State<VideoPost>
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
+    }
+    if (_videoPlayerController.value.isPlaying &&
+        info.visibleFraction == 0) {
+      _onTogglePause();
     }
   }
 
